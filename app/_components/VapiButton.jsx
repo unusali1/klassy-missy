@@ -13,7 +13,7 @@ const VapiAssistant = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
-    const assistantId = "a50f393e-8276-4a7a-b252-9baf3828ee57"; // Replace with your assistant ID
+    const assistantId = "5b794f61-b076-497f-9b10-4c0ab768cab8"; // Replace with your assistant ID
     const apiKey = "a39980da-e065-406f-a199-244c5c626869"; // Replace with your Public key
 
     const script = document.createElement("script");

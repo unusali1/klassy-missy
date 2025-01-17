@@ -214,7 +214,7 @@ const MessageAndCall = () => {
     setChatHistory([
       {
         sender: "bot",
-        text: "👋 Hi! I’m CongentAI Chatbot. Nice to meet you. How may I help you today?",
+        text: "👋 Hi! I’m Klassy AI Chatbot. It’s great to meet you! How can I assist you today?",
       },
     ]);
     localStorage.removeItem("chatHistory");
@@ -266,10 +266,10 @@ const MessageAndCall = () => {
                       </div>
                       <div>
                         <h4 className="text-white text-lg font-semibold">
-                          CongentAI Chatbot
+                          Klyra AI Chatbot
                         </h4>
                         <p className="text-sm text-gray-200 font-semibold">
-                          Intelligent Guide
+                          Skin Intelligence
                         </p>
                       </div>
                     </div>
@@ -485,10 +485,10 @@ const MessageAndCall = () => {
                         ) : (
                           <>
                             {[
-                              "Start 14-Day Free Trial",
-                              "Book a Free Demo",
-                              "I have a Question",
-                              "Chat with a Live Agent",
+                              "How to Get Glowing Skin?",
+                              "Best Acne Treatment Options",
+                              "How to Reduce Wrinkles?",
+                              "Natural Remedies for Dry Skin",
                             ].map((buttonText) => (
                               <button
                                 key={buttonText}
@@ -589,7 +589,7 @@ const MessageAndCall = () => {
                     <p className="text-[12px] text-gray-600">
                       Powered by{" "}
                       <span className="font-semibold text-gray-800">
-                        CongentAI Chatbot
+                       NeuroBrain
                       </span>
                     </p>
                   </div>
