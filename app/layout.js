@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Congent AI",
+  title: "Buy Authentic Premium Beauty",
   description: `AI-powered Chatbot with Seamless Human Handover
    Combined efficiency of AI-powered chatbots with seamless handover options to human agents for 10X service efficiency and smoother customer interaction.`,
 };
