@@ -11,7 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import chatIcon from "../../public/assets/chatIcon.png";
+import chatIcon from "../../public/assets/klassy.png";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Icon } from "@iconify/react";
@@ -259,7 +259,7 @@ const MessageAndCall = () => {
                         <Image
                           src={chatIcon}
                           alt="Chatbot Logo"
-                          className="w-8 h-8"
+                          className="w-8 h-8 rounded-full"
                           width={40}
                           height={40}
                         />
@@ -330,7 +330,7 @@ const MessageAndCall = () => {
                           <Image
                             src={chatIcon}
                             alt="Chatbot Logo"
-                            className="w-8 h-8"
+                            className="w-8 h-8 rounded-full"
                             width={40}
                             height={40}
                           />
