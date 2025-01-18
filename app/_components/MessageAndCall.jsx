@@ -222,11 +222,15 @@ const MessageAndCall = () => {
 
   return (
     <>
-      {isPopoverOpen ? null : (
+
+      <div>
+          <VapiButton />
+        </div>
+      {/* {isPopoverOpen ? null : (
         <div>
           <VapiButton />
         </div>
-      )}
+      )} */}
 
       <div>
         {isPopoverOpen ? null : (
