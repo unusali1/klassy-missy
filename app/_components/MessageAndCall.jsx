@@ -39,7 +39,7 @@ const MessageAndCall = () => {
   const [chatHistory, setChatHistory] = useState([
     {
       sender: "bot",
-      text: "👋 Hi! I’m NeuroBrain Chatbot. Nice to meet you. How may I help you today?",
+      text: "👋Hi! I’m Klyra AI Chatbot. It’s great to meet you! How can I assist you today?",
       image: "",
     },
   ]);
@@ -214,7 +214,7 @@ const MessageAndCall = () => {
     setChatHistory([
       {
         sender: "bot",
-        text: "👋 Hi! I’m Klassy AI Chatbot. It’s great to meet you! How can I assist you today?",
+        text: "👋 Hi! I’m  Klyra AI Chatbot. It’s great to meet you! How can I assist you today?",
       },
     ]);
     localStorage.removeItem("chatHistory");
@@ -224,7 +224,7 @@ const MessageAndCall = () => {
     <>
 
       <div>
-          <VapiButton />
+          <VapiButton  />
         </div>
       {/* {isPopoverOpen ? null : (
         <div>
@@ -238,7 +238,7 @@ const MessageAndCall = () => {
             <p>chat with us </p>
           </div>
         )}
-        <div className="fixed bottom-4 right-4 bg-blue-700 rounded-full p-3 shadow-lg cursor-pointer hover:bg-blue-600">
+        <div className="fixed bottom-4 right-4 bg-blue-700 rounded-full p-3 shadow-lg cursor-pointer hover:bg-blue-600 overflow-hidden">
           <Popover onOpenChange={(open) => setIsPopoverOpen(open)}>
             <PopoverTrigger asChild>
               {isPopoverOpen ? (
@@ -248,7 +248,7 @@ const MessageAndCall = () => {
               )}
             </PopoverTrigger>
 
-            <PopoverContent className="w-96 p-0 bg-transparent shadow-none border-none mr-4 mt-2">
+            <PopoverContent className="w-96 p-0 bg-transparent shadow-none border-none mr-4 mt-2 overflow-hidden">
               <div className="w-full">
                 <div className="w-96 mx-auto border rounded-lg shadow-lg">
                   <div
