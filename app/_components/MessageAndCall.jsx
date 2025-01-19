@@ -39,7 +39,7 @@ const MessageAndCall = () => {
   const [chatHistory, setChatHistory] = useState([
     {
       sender: "bot",
-      text: "👋Hi! I’m Klyra AI Chatbot. It’s great to meet you! How can I assist you today?",
+      text: "👋Hi! I’m Klyra AI. It’s great to meet you! How can I assist you today?",
       image: "",
     },
   ]);
@@ -91,11 +91,16 @@ const MessageAndCall = () => {
     if (savedChatHistory) {
       setChatHistory(JSON.parse(savedChatHistory));
     }
+    const savedProducts = localStorage.getItem("products");
+    if(savedProducts){
+      setProducts(JSON.parse(savedProducts));
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-  }, [chatHistory]);
+    localStorage.setItem("products",JSON.stringify(products))
+  }, [chatHistory,products]);
 
   const handleSendMessage = (suggest) => {
     if (!message.trim() && !suggest) return;
@@ -214,7 +219,7 @@ const MessageAndCall = () => {
     setChatHistory([
       {
         sender: "bot",
-        text: "👋 Hi! I’m  Klyra AI Chatbot. It’s great to meet you! How can I assist you today?",
+        text: "👋 Hi! I’m  Klyra AI . It’s great to meet you! How can I assist you today?",
       },
     ]);
     localStorage.removeItem("chatHistory");
@@ -270,7 +275,7 @@ const MessageAndCall = () => {
                       </div>
                       <div>
                         <h4 className="text-white text-lg font-semibold">
-                          Klyra AI Chatbot
+                          Klyra AI 
                         </h4>
                         <p className="text-sm text-gray-200 font-semibold">
                           Skin Intelligence
@@ -424,8 +429,8 @@ const MessageAndCall = () => {
                       <div className="flex flex-wrap gap-2">
                         {products?.length > 0 ? (
                           <>
-                            <div className="w-full flex flex-col items-center">
-                              <Carousel className="w-full max-w-lg">
+                            <div className="w-96 flex flex-col items-center">
+                              <Carousel className="w-64 max-w-lg ">
                                 <CarouselContent>
                                   {products.map((item) => (
                                     <CarouselItem key={item.id}>
@@ -435,9 +440,9 @@ const MessageAndCall = () => {
                                             <img
                                               src={item.image_url}
                                               alt={item.name}
-                                              className="h-32 w-32 object-cover rounded-full mb-4"
+                                              className="h-20 w-20 object-cover mb-4"
                                             />
-                                            <h3 className="text-xl font-bold text-gray-800">
+                                            <h3 className="text-base font-bold text-gray-800">
                                               {item.name}
                                             </h3>
                                             <p className="text-sm text-gray-600 text-center mb-2">

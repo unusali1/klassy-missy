@@ -78,7 +78,7 @@ const VapiAssistant = () => {
           background-color: #2563EB !important;
           color : white !important;
           transform: none !important;
-          z-index: 1000;
+          z-index: 00;
           height:"50px",
           width:"50px
         }
