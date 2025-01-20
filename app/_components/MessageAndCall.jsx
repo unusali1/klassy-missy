@@ -34,13 +34,14 @@ const MessageAndCall = () => {
   const [message, setMessage] = useState("");
   const [img, setImg] = useState();
   const [preview, setPreview] = useState(null);
-  const [imgUrl,setImgUrl] = useState();
-  const [products, setProducts] = useState([]);
+  const [imgUrl, setImgUrl] = useState();
+  // const [products, setProducts] = useState([]);
   const [chatHistory, setChatHistory] = useState([
     {
       sender: "bot",
       text: "👋Hi! I’m Klyra AI. It’s great to meet you! How can I assist you today?",
       image: "",
+      products: [],
     },
   ]);
   const [loading, setLoading] = useState(false);
@@ -58,25 +59,28 @@ const MessageAndCall = () => {
       setImg(file);
       setPreview(URL.createObjectURL(file));
       // Delay the upload until the state is updated
-      uploadImage(file); 
+      uploadImage(file);
     }
   };
-  
+
   async function uploadImage(file) {
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "lt2tb7ci");
-  
+
     try {
-      let res = await fetch("https://api.cloudinary.com/v1_1/dddvfrdb1/image/upload", {
-        method: "POST",
-        body: data,
-      });
-  
+      let res = await fetch(
+        "https://api.cloudinary.com/v1_1/dddvfrdb1/image/upload",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
-  
+
       const urlData = await res.json();
       setImgUrl(urlData.secure_url); // Use secure_url for HTTPS
       console.log("Image URL:", urlData.secure_url);
@@ -85,22 +89,21 @@ const MessageAndCall = () => {
     }
   }
 
-
   useEffect(() => {
     const savedChatHistory = localStorage.getItem("chatHistory");
     if (savedChatHistory) {
       setChatHistory(JSON.parse(savedChatHistory));
     }
-    const savedProducts = localStorage.getItem("products");
-    if(savedProducts){
-      setProducts(JSON.parse(savedProducts));
-    }
+    // const savedProducts = localStorage.getItem("products");
+    // if(savedProducts){
+    //   setProducts(JSON.parse(savedProducts));
+    // }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
-    localStorage.setItem("products",JSON.stringify(products))
-  }, [chatHistory,products]);
+    // localStorage.setItem("products",JSON.stringify(products))
+  }, [chatHistory]);
 
   const handleSendMessage = (suggest) => {
     if (!message.trim() && !suggest) return;
@@ -109,6 +112,7 @@ const MessageAndCall = () => {
       sender: "user",
       text: message || suggest,
       image: imgUrl,
+      products: [],
     };
     setChatHistory((prev) => [...prev, userMessage]);
     setMessage("");
@@ -121,15 +125,11 @@ const MessageAndCall = () => {
       image: img,
     };
     axios
-      .post(
-        `https://klyra-api-607757000261.us-central1.run.app/chat`,
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      )
+      .post(`https://klyra-api-607757000261.us-central1.run.app/chat`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         const data = {
           user_message: message || suggest,
@@ -158,10 +158,10 @@ const MessageAndCall = () => {
         const botResponse = {
           sender: "bot",
           text: res.data.response || "Sorry, I didn't understand that.",
+          products: res?.data?.products,
         };
-        console.log("response:",res);
         setChatHistory((prev) => [...prev, botResponse]);
-        setProducts(res?.data?.products);
+        // setProducts((prev) => [...(prev || []), ...(res?.data?.products || [])]);
         setImg("");
         setImgUrl("");
         setPreview("");
@@ -171,6 +171,7 @@ const MessageAndCall = () => {
         const errorResponse = {
           sender: "bot",
           text: "An error occurred while connecting to the server. Please try again later.",
+          products: [],
         };
         setChatHistory((prev) => [...prev, errorResponse]);
         setImg("");
@@ -220,17 +221,18 @@ const MessageAndCall = () => {
       {
         sender: "bot",
         text: "👋 Hi! I’m  Klyra AI . It’s great to meet you! How can I assist you today?",
+        products: [],
       },
     ]);
     localStorage.removeItem("chatHistory");
+    setSuggestQuestion([]);
   };
 
   return (
     <>
-
       <div>
-          <VapiButton  />
-        </div>
+        <VapiButton />
+      </div>
       {/* {isPopoverOpen ? null : (
         <div>
           <VapiButton />
@@ -275,7 +277,7 @@ const MessageAndCall = () => {
                       </div>
                       <div>
                         <h4 className="text-white text-lg font-semibold">
-                          Klyra AI 
+                          Klyra AI
                         </h4>
                         <p className="text-sm text-gray-200 font-semibold">
                           Skin Intelligence
@@ -284,7 +286,7 @@ const MessageAndCall = () => {
                     </div>
                     <div className="flex">
                       <TrashIcon
-                        className="h-6 w-6 text-white mr-3"
+                        className="h-6 w-6 text-white mr-3 cursor-pointer"
                         onClick={deleteChatHistory}
                       />
                       <button className="text-white text-xl focus:outline-none">
@@ -330,6 +332,52 @@ const MessageAndCall = () => {
                               __html: marked(msg.text),
                             }}
                           />
+
+                          {msg.products && msg.products.length > 0 && (
+                            <div className="flex flex-col items-center mt-4">
+                              <Carousel className="w-44 max-w-48">
+                                <CarouselContent>
+                                  {msg.products.map((item) => (
+                                    <CarouselItem key={item.id}>
+                                      <div className="">
+                                        <Card>
+                                          <CardContent className="flex flex-col items-center justify-center p-6">
+                                            <img
+                                              src={item.image_url}
+                                              alt={item.name}
+                                              className="h-14 w-14 object-cover mb-4"
+                                            />
+                                            <p className="text-[12px] font-bold text-gray-800 text-center">
+                                              {item.name}
+                                            </p>
+                                            {/* <p className="text-sm text-gray-600 text-center mb-2">
+                          {item.highlights}
+                        </p> */}
+                                            <span className="text-sm font-medium text-gray-700 mb-4 mt-2">
+                                              Price: {item.price}
+                                            </span>
+                                            <button
+                                              onClick={() =>
+                                                window.open(
+                                                  item.buy_link,
+                                                  "_blank"
+                                                )
+                                              }
+                                              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                                            >
+                                              Buy Now
+                                            </button>
+                                          </CardContent>
+                                        </Card>
+                                      </div>
+                                    </CarouselItem>
+                                  ))}
+                                </CarouselContent>
+                                <CarouselPrevious />
+                                <CarouselNext />
+                              </Carousel>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -425,7 +473,7 @@ const MessageAndCall = () => {
                       </div>
                     )}
 
-                    {!loading && (
+                    {/* {!loading && (
                       <div className="flex flex-wrap gap-2">
                         {products?.length > 0 ? (
                           <>
@@ -442,9 +490,9 @@ const MessageAndCall = () => {
                                               alt={item.name}
                                               className="h-20 w-20 object-cover mb-4"
                                             />
-                                            <h3 className="text-base font-bold text-gray-800">
+                                            <p className="text-sm font-bold text-gray-800 text-center">
                                               {item.name}
-                                            </h3>
+                                            </p>
                                             <p className="text-sm text-gray-600 text-center mb-2">
                                               {item.highlights}
                                             </p>
@@ -475,7 +523,7 @@ const MessageAndCall = () => {
                           </>
                         ) : null}
                       </div>
-                    )}
+                    )} */}
 
                     {!loading && (
                       <div className="flex flex-wrap gap-2">
@@ -598,7 +646,7 @@ const MessageAndCall = () => {
                     <p className="text-[12px] text-gray-600">
                       Powered by{" "}
                       <span className="font-semibold text-gray-800">
-                       NeuroBrain
+                        NeuroBrain
                       </span>
                     </p>
                   </div>
